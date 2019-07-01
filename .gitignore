@@ -1,0 +1,11 @@
+source/ReactProjectExample.Services/obj/
+source/ReactProjectExample.Repositories/obj/
+source/ReactProjectExample.Repositories/bin/
+source/ReactProjectExample.EntityFrameWork/obj/
+source/ReactProjectExample.EntityFrameWork/bin/
+source/ReactProjectExample.Entities/obj/
+source/ReactProjectExample.Entities/bin/
+source/ReactProjectExample.Common/obj/
+source/ReactProjectExample.Common/bin/
+source/.vs/ReactProjectExample/v15/
+source/.vs/ReactProjectExample/v16/
