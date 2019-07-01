@@ -89,6 +89,7 @@ namespace ReactProjectExample.FrontEnd
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+              
             }
             else
             {
@@ -99,7 +100,7 @@ namespace ReactProjectExample.FrontEnd
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
