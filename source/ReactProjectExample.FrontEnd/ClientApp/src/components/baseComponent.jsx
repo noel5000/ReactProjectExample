@@ -1,6 +1,10 @@
 ﻿import React, { Component } from "react";
 
 class BaseComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { showPage: false };
+  }
   isUserLogged() {
     return this.getCurrentToken() ? true : false;
   }
@@ -46,14 +50,16 @@ class BaseComponent extends Component {
     if (element != null) element.classList.remove("invisible");
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const currentUrl = window.location.pathname
       .split("?")[0]
       .split("/")[1]
       .toString();
 
-    if (!this.isUserLogged() && this.allowedUrl.indexOf(currentUrl) < 0)
+    if (!this.isUserLogged() && this.allowedUrl.indexOf(currentUrl) < 0) {
       window.location.href = "/login";
+      this.setState({ showPage: true });
+    }
   }
 }
 

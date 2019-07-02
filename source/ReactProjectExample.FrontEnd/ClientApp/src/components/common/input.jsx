@@ -10,4 +10,4 @@ const Input = ({ name, label, error, ...rest }) => {
   );
 };
 
-export default Text;
+export default Input;
