@@ -19,6 +19,7 @@ using System.Text;
 using System;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using ReactProjectExample.Entities.Models;
+using ReactProjectExample.Repositories.Contracts;
 
 namespace ReactProjectExample.FrontEnd
 {
@@ -55,6 +56,7 @@ namespace ReactProjectExample.FrontEnd
 
             //services.AddScoped<IParqueoRepository, ParqueoRepository>();
 
+            services.AddScoped<IDataRepositoriesFactory, DataRepositoriesFactory>();
 
             //  New instance for injection
             services.AddTransient(typeof(IBase<>), typeof(Repository<>));

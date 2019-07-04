@@ -14,7 +14,7 @@ class BaseComponent extends Component {
     window.location.href = "/";
   }
 
-  allowedUrl = ["", "registrar", "login"];
+  allowedUrl = ["", "register", "login"];
 
   getCurrentToken() {
     const currentUser = this.getCurrentUser();

@@ -54,12 +54,12 @@ namespace ReactProjectExample.FrontEnd.Controllers
             }
         }
 
-        [HttpGet("{page:int}/{sinze:int}")]
-        public virtual IActionResult Get(int page, int size)
+        [HttpGet("{number:int}/{size:int}")]
+        public virtual IActionResult Get(int number, int size)
         {
             try
             {
-                var data = _baseRepo.GetPaged(page, size);
+                var data = _baseRepo.GetPaged(number, size);
                 return Ok(new { status = 0, message = "OK", data = data });
             }
 

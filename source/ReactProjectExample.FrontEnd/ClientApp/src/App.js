@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import { Route } from "react-router";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { Layout } from "./components/Layout";
 import { Home } from "./components/Home";
-import { FetchData } from "./components/FetchData";
-import { Counter } from "./components/Counter";
 import LoginForm from "./components/LoginForm";
 import BaseComponent from "./components/baseComponent";
 import Notifications, { notify } from "react-notify-toast";
+import Register from "./components/Register";
+import Invoices from "./components/Invoices";
+import Products from "./components/Products";
 
 export default class App extends BaseComponent {
   static displayName = App.name;
@@ -15,15 +19,22 @@ export default class App extends BaseComponent {
     return (
       <div>
         <Notifications />
+        <ToastContainer />
         <Layout>
-          <Route
-            exact
-            path="/"
-            component={this.isUserLogged() ? Home : LoginForm}
-          />
-          <Route path="/counter" component={Counter} />
-          <Route path="/fetch-data" component={FetchData} />
-          <Route path="/login" component={LoginForm} />
+          <div>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={this.isUserLogged() ? Home : LoginForm}
+              />
+
+              <Route path="/register" component={Register} />
+              <Route path="/Invoices" component={Invoices} />
+              <Route path="/products" component={Products} />
+              <Route path="/login" component={LoginForm} />
+            </Switch>
+          </div>
         </Layout>
       </div>
     );

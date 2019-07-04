@@ -1,40 +1,33 @@
 import React, { Component } from "react";
 import BaseComponent from "./baseComponent";
 import Joi from "joi-browser";
-import httpService from "./services/httpService";
 import Form from "./common/form";
 import http from "./services/httpService";
 import { notify } from "react-notify-toast";
 
 class LoginForm extends Form {
   state = {
-    data: { username: "", password: "" },
+    data: { email: "", password: "" },
     errors: {}
   };
   schema = {
-    username: Joi.string()
+    email: Joi.string()
       .required()
-      .label("Username"),
+      .label("Username")
+      .email(),
     password: Joi.string()
       .required()
       .label("Password")
   };
-  // schema = Joi.object()
-  //   .keys({
-  //     username: Joi.string()
-  //       .alphanum()
-  //       .min(6)
-  //       .max(16)
-  //       .required(),
-  //     password: Joi.string()
-  //       .regex(/^[a-zA-Z0-9]{6,16}$/)
-  //       .min(6)
-  //       .required()
-  //   })
-  //   .with("username", "password");
+
+  registerUser = () => {
+    window.location.href = "/register";
+  };
+  componentWillMount() {}
 
   doSubmit = () => {
     let self = this;
+
     http
       .call({
         method: "post",
@@ -42,10 +35,12 @@ class LoginForm extends Form {
         headers: {
           "Content-Type": "application/json"
         },
-        data: { userName: this.state.username, password: this.state.password }
+        data: this.state.data
       })
       .then(response => {
         if (response.data.status >= 0) {
+          localStorage.setItem("visonUserToken", JSON.stringify(response.data));
+
           window.location.href = "/";
         } else {
           notify.show(response.data.message, "error", 1000);
@@ -60,10 +55,18 @@ class LoginForm extends Form {
       <div>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("username", "User Name")}
+          {this.renderInput("email", "User Name", "email")}
           {this.renderInput("password", "Password", "password")}
           {this.renderButton("Login")}
         </form>
+        <br /> <br />
+        <h5 style={{ color: "red" }}>Not registered?</h5>
+        <button
+          onClick={this.registerUser}
+          className="btn btn-secondary btn-lg"
+        >
+          Register
+        </button>
       </div>
     );
   }

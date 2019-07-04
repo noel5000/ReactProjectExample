@@ -38,10 +38,12 @@ namespace ReactProjectExample.FrontEnd.Controllers
         {
             try
             {
-                User user = users.Get(x => x.Where(u => u.DeletedFlag == false && u.Email == model.Email);
+                User user = users.Get(x => x.Where(u => u.DeletedFlag == false && u.Email == model.Email));
 
                 if (user != null)
                     return Ok(new { status = -1, message = "User already registered." });
+                model.Password = MD5.Encrypt(model.Password, _appSettings.Value.TokenKey);
+
                 var result = users.Add(model);
 
                 var claims = new[]

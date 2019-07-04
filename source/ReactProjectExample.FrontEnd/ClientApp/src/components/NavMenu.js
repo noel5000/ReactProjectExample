@@ -32,7 +32,7 @@ export class NavMenu extends BaseComponent {
 
   render() {
     return (
-      <header>
+      <header id="wrapper" className="active">
         <Navbar
           className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3"
           light
@@ -55,17 +55,35 @@ export class NavMenu extends BaseComponent {
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/counter">
-                      Counter
+                    <NavLink tag={Link} className="text-dark" to="/products">
+                      Products
                     </NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/fetch-data">
-                      Fetch data
+                    <NavLink tag={Link} className="text-dark" to="/invoices">
+                      Invoices
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      tag={Link}
+                      className="text-dark"
+                      onClick={this.logout}
+                      to="#"
+                    >
+                      Logout
                     </NavLink>
                   </NavItem>
                 </ul>
-              ) : null}
+              ) : (
+                <ul className="navbar-nav flex-grow">
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to="/login">
+                      Login
+                    </NavLink>
+                  </NavItem>
+                </ul>
+              )}
             </Collapse>
           </Container>
         </Navbar>
