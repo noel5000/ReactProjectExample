@@ -11,6 +11,7 @@ import Notifications, { notify } from "react-notify-toast";
 import Register from "./components/Register";
 import Invoices from "./components/Invoices";
 import Products from "./components/Products";
+import ProductsForm from "./components/ProductForm";
 
 export default class App extends BaseComponent {
   static displayName = App.name;
@@ -23,6 +24,7 @@ export default class App extends BaseComponent {
         <Layout>
           <div>
             <Switch>
+              <Route path="/products/:id" component={ProductsForm} />
               <Route
                 exact
                 path="/"

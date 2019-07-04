@@ -3,7 +3,7 @@ import BaseComponent from "./baseComponent";
 import Joi from "joi-browser";
 import Form from "./common/form";
 import http from "./services/httpService";
-import { notify } from "react-notify-toast";
+import { toast } from "react-toastify";
 
 class LoginForm extends Form {
   state = {
@@ -43,10 +43,12 @@ class LoginForm extends Form {
 
           window.location.href = "/";
         } else {
-          notify.show(response.data.message, "error", 1000);
+          toast.error(response.data.message);
         }
       })
-      .catch(reason => {});
+      .catch(reason => {
+        toast.error("Something happened... Please try later");
+      });
   };
 
   render() {

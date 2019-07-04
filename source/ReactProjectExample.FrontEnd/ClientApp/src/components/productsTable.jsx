@@ -7,7 +7,7 @@ class ProductsTable extends Component {
     {
       key: "name",
       label: "Name",
-      content: item => <Link to={`/productsform/${item.id}`}>{item.name}</Link>
+      content: item => <Link to={`/products/${item.id}`}>{item.name}</Link>
     },
 
     { path: "price", label: "Price" },

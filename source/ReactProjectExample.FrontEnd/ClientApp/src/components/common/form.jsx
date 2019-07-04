@@ -25,7 +25,29 @@ class Form extends Component {
     }
     return errors;
   };
+  getCurrentToken() {
+    const currentUser = this.getCurrentUser();
+    if (
+      !currentUser.token ||
+      !currentUser.expiration ||
+      currentUser.expiration < new Date()
+    ) {
+      const currentUrl = window.location.pathname
+        .split("?")[0]
+        .split("/")[1]
+        .toString();
+      localStorage.setItem("visonUserToken", "{}");
+      if (this.allowedUrl.indexOf(currentUrl) < 0)
+        window.location.href = "/login";
+      return "";
+    } else return currentUser.token;
+  }
 
+  getCurrentUser() {
+    let currentUserJson = localStorage.getItem("visonUserToken");
+    currentUserJson = !currentUserJson ? "{}" : currentUserJson;
+    return JSON.parse(currentUserJson);
+  }
   handleChange = ({ currentTarget: input }) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(input);

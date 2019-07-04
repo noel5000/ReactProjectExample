@@ -43,7 +43,27 @@ class Products extends BaseComponent {
   };
 
   deleteProduct = item => {
-    toast.info("deleted");
+      let self = this;
+      httpService
+          .call({
+              method: "delete",
+              url: `/api/products/${item.id}`,
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: self.getCurrentToken()
+              }
+          })
+          .then(response => {
+              if (response.data.status >= 0) {
+                  toast.success(response.data.message);
+                  this.getProducts();
+              } else {
+                  toast.error(response.data.message);
+              }
+          })
+          .catch(reason => {
+              toast.error("Something happened.... please try later.");
+          });
   };
 
   setPage = page => {
@@ -84,7 +104,7 @@ class Products extends BaseComponent {
         <div className="col-md-12">
           <div className="row">
             <Link
-              to="/productsform/0"
+              to="/products/0"
               className="btn btn-primary"
               style={{ marginBottom: 20 }}
             >
