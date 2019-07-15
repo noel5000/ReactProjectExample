@@ -35,13 +35,15 @@ class ProductStock extends Form {
     this.setState({ open: false });
   };
 
-  doSubmit = () => {
+    doSubmit = () => {
+      
+
+        const data = this.state.data;;
     let self = this;
-    const data = self.state.data;
 
     httpService
       .call({
-        method: data.id === 0 ? "post" : "put",
+        method :"post",
         url: `/api/Stock`,
         headers: {
           "Content-Type": "application/json",
@@ -60,15 +62,46 @@ class ProductStock extends Form {
       .catch(reason => {
         toast.error("Something happened... Please try later");
       });
-  };
-  componentDidMount() {
-    const { product } = this.props;
-    const data = {
-      id: 0,
-      productId: product.id,
-      quantity: 0
     };
-    this.setState({ data });
+    getProductStock = productId => {
+        let self = this;
+        
+
+        httpService
+            .call({
+                method: 'get',
+                url: `/api/Stock/GetProductStock/${productId}`,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: self.getCurrentToken()
+                }
+            })
+            .then(response => {
+                if (response.data.status >= 0) {
+                   
+                    let currentStock = response.data.data;
+                    if (currentStock) {
+                        self.setState({
+                            data: {
+                                id: currentStock.id,
+                                productId: currentStock.productId,
+                                quantity: currentStock.quantity
+                            }
+                        });
+                      
+                    }
+                    
+                } else {
+                    toast.error(response.data.message);
+                }
+            })
+            .catch(reason => {
+                toast.error("Something happened... Please try later");
+            });
+    }
+  componentDidMount() {
+      const { product } = this.props;
+      this.getProductStock(product.id);
   }
 
   render() {

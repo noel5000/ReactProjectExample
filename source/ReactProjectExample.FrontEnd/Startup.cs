@@ -20,6 +20,7 @@ using System;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using ReactProjectExample.Entities.Models;
 using ReactProjectExample.Repositories.Contracts;
+using ReactProjectExample.Repositories.Custom;
 
 namespace ReactProjectExample.FrontEnd
 {
@@ -55,6 +56,7 @@ namespace ReactProjectExample.FrontEnd
 
 
             //services.AddScoped<IParqueoRepository, ParqueoRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();
 
             services.AddScoped<IDataRepositoriesFactory, DataRepositoriesFactory>();
 

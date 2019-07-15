@@ -9,6 +9,7 @@ using ReactProjectExample.Entities;
 using ReactProjectExample.Entities.Models;
 using ReactProjectExample.FrontEnd.Security;
 using ReactProjectExample.Repositories.Contracts;
+using ReactProjectExample.Repositories.Custom;
 
 namespace ReactProjectExample.FrontEnd.Controllers
 {
@@ -17,8 +18,51 @@ namespace ReactProjectExample.FrontEnd.Controllers
     [ActionAuthorize]
     public class StockController : BaseController<Stock>
     {
+        private readonly IStockRepository stockRepo;
         public StockController(IOptions<AppSettings> appSettings, IDataRepositoriesFactory repositoryFactory) : base(appSettings, repositoryFactory)
         {
+            this.stockRepo = _repositoryFactory.GetCustomDataRepositories<IStockRepository>();
+        }
+
+        [HttpGet("GetProductStock/{productId:long}")]
+        public IActionResult GetProductStock(long productId)
+        {
+            try
+            {
+                var data = stockRepo.GetProductStock(productId);
+                return Ok(new { status = 0, message = "OK", data = data });
+            }
+
+            catch (Exception ex)
+            {
+                return Ok(new { status = -1, message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        public override IActionResult Post([FromBody] Stock model)
+        {
+            try
+            {
+                var exist = stockRepo.GetProductStock(model.ProductId);
+
+                if (exist.ProductId > 0)
+                {
+                    exist.Quantity = model.Quantity;
+                    stockRepo.Update(exist);
+                }
+                else
+                exist=    stockRepo.Add(model);
+
+                return Ok(new { status = 0, message = "OK", data = exist });
+            }
+
+            catch (Exception ex)
+            {
+                return Ok(new { status = -1, message = ex.Message });
+            }
+
         }
     }
 }
