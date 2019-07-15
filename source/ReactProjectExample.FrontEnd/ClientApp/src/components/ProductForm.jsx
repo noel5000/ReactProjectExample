@@ -69,6 +69,7 @@ class ProductsForm extends Form {
                             isService: product.isService
                         }
                     });
+                    document.getElementById('isService').checked = self.state.data.isService;
                 } else {
                     toast.info(response.data.message);
                 }
@@ -79,6 +80,8 @@ class ProductsForm extends Form {
     };
     doSubmit = () => {
         let self = this;
+        let data = self.state.data;
+        data.isService = document.getElementById('isService').checked;
 
         httpService
             .call({
@@ -88,7 +91,7 @@ class ProductsForm extends Form {
                     "Content-Type": "application/json",
                     Authorization: self.getCurrentToken()
                 },
-                data: self.state.data
+                data: data
             })
             .then(response => {
                 if (response.data.status >= 0) {

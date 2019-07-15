@@ -67,9 +67,10 @@ class Form extends Component {
     this.doSubmit();
   };
 
-  renderButton = label => {
+  renderButton = (label, additionalClasses = "") => {
+    const classes = `btn btn-primary ${additionalClasses}`;
     return (
-      <button disabled={this.validate()} className="btn btn-primary">
+      <button disabled={this.validate()} className={classes}>
         {label}
       </button>
     );
@@ -80,6 +81,7 @@ class Form extends Component {
     return (
       <Input
         name={name}
+        id={name}
         error={errors[name]}
         value={data[name]}
         label={label}

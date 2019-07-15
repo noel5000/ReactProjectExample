@@ -12,6 +12,15 @@ class ProductsTable extends Component {
 
     { path: "price", label: "Price" },
     { path: "cost", label: "Cost" },
+    {
+      key: "isService",
+      label: "Is Service",
+      content: item => (
+        <div>
+          <p>{item.isService ? "YES" : "NO"}</p>
+        </div>
+      )
+    },
 
     {
       key: "delete",
@@ -26,15 +35,19 @@ class ProductsTable extends Component {
           >
             Delete
           </button>
-          <button
-            type="button"
-            className=" btn btn-info btn-sm"
-            onClick={() => {
-              this.props.addStock(item);
-            }}
-          >
-            Add Stock
-          </button>
+          {!item.isService ? (
+            <button
+              type="button"
+              className=" btn btn-info btn-sm"
+              onClick={() => {
+                this.props.addStock(item);
+              }}
+            >
+              Add Stock
+            </button>
+          ) : (
+            <div />
+          )}
         </div>
       )
     }
