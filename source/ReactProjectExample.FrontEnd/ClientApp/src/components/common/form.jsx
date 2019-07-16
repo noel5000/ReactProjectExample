@@ -17,7 +17,6 @@ class Form extends Component {
   validate = () => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options);
-    console.log(error);
     if (!error) return null;
     const errors = {};
     for (let item of error.details) {
@@ -59,6 +58,17 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
+  handleChangeDelegated = input => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateProperty(input);
+    if (errorMessage) errors[input.name] = errorMessage;
+    else delete errors[input.name];
+
+    const data = { ...this.state.data };
+    data[input.name] = input.value;
+    this.setState({ data, errors });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const errors = this.validate();
@@ -66,6 +76,15 @@ class Form extends Component {
     if (errors) return;
     this.doSubmit();
   };
+  eventFire(el, etype) {
+    if (el.fireEvent) {
+      el.fireEvent("on" + etype);
+    } else {
+      var evObj = document.createEvent("Events");
+      evObj.initEvent(etype, true, false);
+      el.dispatchEvent(evObj);
+    }
+  }
 
   renderButton = (label, additionalClasses = "") => {
     const classes = `btn btn-primary ${additionalClasses}`;
@@ -86,6 +105,26 @@ class Form extends Component {
         value={data[name]}
         label={label}
         onChange={this.handleChange}
+        type={type}
+      />
+    );
+  };
+
+  renderInputWithChangeHandler = (
+    name,
+    label,
+    type = "text",
+    changeHandler
+  ) => {
+    const { errors, data } = this.state;
+    return (
+      <Input
+        name={name}
+        id={name}
+        error={errors[name]}
+        value={data[name]}
+        label={label}
+        onChange={changeHandler}
         type={type}
       />
     );

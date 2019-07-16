@@ -20,5 +20,21 @@ namespace ReactProjectExample.FrontEnd.Controllers
         public ProductsController(IOptions<AppSettings> appSettings, IDataRepositoriesFactory repositoryFactory) : base(appSettings, repositoryFactory)
         {
         }
+
+        [HttpGet("FilterProductsByName/{name}")]
+        public IActionResult FilterProductsByName(string name)
+        {
+            try
+            {
+                var data = _baseRepo.GetAll(x => x.Where(y => y.DeletedFlag == false && y.Name.Contains(name)));
+                return Ok(new { status = 0, message = "OK", data = data });
+            }
+
+            catch (Exception ex)
+            {
+                return Ok(new { status = -1, message = ex.Message });
+            }
+
+        }
     }
 }

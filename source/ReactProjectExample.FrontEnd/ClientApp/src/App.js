@@ -12,6 +12,7 @@ import Register from "./components/Register";
 import Invoices from "./components/Invoices";
 import Products from "./components/Products";
 import ProductsForm from "./components/ProductForm";
+import InvoicesForm from "./components/InvoiceForm";
 
 export default class App extends BaseComponent {
   static displayName = App.name;
@@ -25,6 +26,7 @@ export default class App extends BaseComponent {
           <div>
             <Switch>
               <Route path="/products/:id" component={ProductsForm} />
+              <Route path="/invoices/:id" component={InvoicesForm} />
               <Route
                 exact
                 path="/"
@@ -32,7 +34,7 @@ export default class App extends BaseComponent {
               />
 
               <Route path="/register" component={Register} />
-              <Route path="/Invoices" component={Invoices} />
+              <Route path="/invoices" component={Invoices} />
               <Route path="/products" component={Products} />
               <Route path="/login" component={LoginForm} />
             </Switch>

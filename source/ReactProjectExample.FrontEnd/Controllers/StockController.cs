@@ -30,6 +30,7 @@ namespace ReactProjectExample.FrontEnd.Controllers
             try
             {
                 var data = stockRepo.GetProductStock(productId);
+                data.ProductId = data.ProductId == 0 ? productId : data.ProductId;
                 return Ok(new { status = 0, message = "OK", data = data });
             }
 
@@ -53,7 +54,7 @@ namespace ReactProjectExample.FrontEnd.Controllers
                     stockRepo.Update(exist);
                 }
                 else
-                exist=    stockRepo.Add(model);
+                    exist = stockRepo.Add(model);
 
                 return Ok(new { status = 0, message = "OK", data = exist });
             }
