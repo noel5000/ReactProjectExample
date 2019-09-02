@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.OData;
+using ReactProjectExample.Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,7 +13,7 @@ namespace ReactProjectExample.Repositories
     }
 
     public interface IBase<T> : IBase
-        where T : class, new()
+        where T : class, IDeleteEntity, new()
     {
         T Add(T entity);
         void AddRange(IEnumerable<T> entities);
@@ -25,6 +27,7 @@ namespace ReactProjectExample.Repositories
         IEnumerable<T> GetAll(string sortExpression = null);
 
         IPagedList<T> GetPaged(int startRowIndex, int pageSize, string sortExpression = null);
+        PageResult<T> GetPagedNew(int startRowIndex, int pageSize, string sortExpression = null);
 
         IEnumerable<T> GetAll(Func<IQueryable<T>, IQueryable<T>> transform, Expression<Func<T, bool>> filter = null, string sortExpression = null);
 

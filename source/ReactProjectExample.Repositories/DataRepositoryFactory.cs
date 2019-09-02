@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using ReactProjectExample.Entities.Interfaces;
 
 namespace ReactProjectExample.Repositories
 {
@@ -17,7 +18,7 @@ namespace ReactProjectExample.Repositories
             this.services = services;
         }
 
-        public IBase<T> GetDataRepositories<T>() where T : class, new()
+        public IBase<T> GetDataRepositories<T>() where T : class, IDeleteEntity, new()
         {
             //Import instance of T from the DI container
             var instance = services.GetService<IBase<T>>();

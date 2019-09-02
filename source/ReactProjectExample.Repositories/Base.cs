@@ -5,11 +5,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using ReactProjectExample.Repositories.Extensions;
 using System.Text;
+using Microsoft.AspNet.OData;
+using ReactProjectExample.Entities.Interfaces;
 
 namespace ReactProjectExample.Repositories
 {
     public abstract class Base<T, U> : IBase<T>
-           where T : class, new()
+           where T : class, IDeleteEntity, new()
            where U : DbContext
     {
         protected readonly U _Context;
@@ -72,7 +74,12 @@ namespace ReactProjectExample.Repositories
 
         public virtual IPagedList<T> GetPaged(int startRowIndex, int pageSize, string sortExpression = null)
         {
-            return new PagedList<T>(_DbSet.AsNoTracking().OrderBy(sortExpression), startRowIndex, pageSize);
+            return new PagedList<T>(_DbSet.AsNoTracking(), startRowIndex, pageSize);
+        }
+
+        public virtual PageResult<T> GetPagedNew(int startRowIndex, int pageSize, string sortExpression = null)
+        {
+            return new PageResult<T>(_DbSet, new Uri("https://localhost:44383/api/products/2/2"), _DbSet.Count());
         }
 
         public virtual IEnumerable<T> GetAll(Func<IQueryable<T>, IQueryable<T>> transform, Expression<Func<T, bool>> filter = null, string sortExpression = null)
