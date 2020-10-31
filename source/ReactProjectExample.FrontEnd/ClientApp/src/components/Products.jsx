@@ -39,8 +39,8 @@ class Products extends BaseComponent {
         }
       })
       .then(response => {
-        if (response.data.status >= 0) {
-          self.setState({ products: response.data.data });
+        if (response.data) {
+          self.setState({ products: response.data });
         } else {
           toast.info(response.data.message);
         }

@@ -38,8 +38,8 @@ class Invoices extends BaseComponent {
         }
       })
       .then(response => {
-        if (response.data.status >= 0) {
-          self.setState({ invoices: response.data.data });
+        if (response.data) {
+          self.setState({ invoices: response.data });
         } else {
           toast.info(response.data.message);
         }
