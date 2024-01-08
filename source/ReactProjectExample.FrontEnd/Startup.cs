@@ -19,6 +19,12 @@ using System.Text;
 using System;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using ReactProjectExample.Entities.Models;
+using ReactProjectExample.Repositories.Contracts;
+using ReactProjectExample.Repositories.Custom;
+using Microsoft.OData.Edm;
+using Microsoft.AspNet.OData.Builder;
+using ReactProjectExample.Entities;
+using Microsoft.AspNet.OData.Extensions;
 
 namespace ReactProjectExample.FrontEnd
 {
@@ -54,7 +60,9 @@ namespace ReactProjectExample.FrontEnd
 
 
             //services.AddScoped<IParqueoRepository, ParqueoRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();
 
+            services.AddScoped<IDataRepositoriesFactory, DataRepositoriesFactory>();
 
             //  New instance for injection
             services.AddTransient(typeof(IBase<>), typeof(Repository<>));
@@ -78,7 +86,7 @@ namespace ReactProjectExample.FrontEnd
                  ClockSkew = TimeSpan.Zero
              });
 
-
+            services.AddOData();
             services.AddMvc().AddXmlSerializerFormatters();
             services.AddProgressiveWebApp();
         }
@@ -89,6 +97,7 @@ namespace ReactProjectExample.FrontEnd
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+              
             }
             else
             {
@@ -99,14 +108,18 @@ namespace ReactProjectExample.FrontEnd
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
+
+                routes.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
+                routes.MapODataServiceRoute("odata", "odata", GetEdmModel(app));
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+            app.UseMvc(routeBuilder => routeBuilder.EnableDependencyInjection());
 
             app.UseSpa(spa =>
             {
@@ -117,6 +130,18 @@ namespace ReactProjectExample.FrontEnd
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+        }
+
+        private static IEdmModel GetEdmModel(IApplicationBuilder app)
+        {
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder(app.ApplicationServices);
+            builder.EntitySet<Invoice>("Invoices");
+            builder.EntitySet<InvoiceDetails>("InvoiceDetails");
+            builder.EntitySet<Product>("Products").EntityType.HasKey(p=>p.Id)
+                .Filter(Microsoft.AspNet.OData.Query.QueryOptionSetting.Allowed);
+            builder.EntitySet<Stock>("Stocks");
+            builder.EntitySet<User>("Users");
+            return builder.GetEdmModel();
         }
     }
 }

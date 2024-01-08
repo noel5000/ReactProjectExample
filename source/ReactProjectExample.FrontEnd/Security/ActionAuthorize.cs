@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
+using ReactProjectExample.Entities;
 using ReactProjectExample.Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ namespace ReactProjectExample.FrontEnd.Security
             if (!isInvalid)
             {
                 string token = currentToken;
-                Login user = _cache.Get<Login>(token);
+                User user = _cache.Get<User>(token);
                 if (user == null)
                     context.Result = new ForbidResult();
 

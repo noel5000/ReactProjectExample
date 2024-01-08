@@ -11,7 +11,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.6.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="WebEssentials.AspNetCore.PWA" Version="1.0.59" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +26,14 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReactProjectExample.Common\ReactProjectExample.Common.csproj" />
+    <ProjectReference Include="..\ReactProjectExample.Entities\ReactProjectExample.Entities.csproj" />
+    <ProjectReference Include="..\ReactProjectExample.EntityFrameWork\ReactProjectExample.EntityFrameWork.csproj" />
+    <ProjectReference Include="..\ReactProjectExample.Repositories\ReactProjectExample.Repositories.csproj" />
+    <ProjectReference Include="..\ReactProjectExample.Services\ReactProjectExample.Services.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -9,3 +9,6 @@ source/ReactProjectExample.Common/obj/
 source/ReactProjectExample.Common/bin/
 source/.vs/ReactProjectExample/v15/
 source/.vs/ReactProjectExample/v16/
+source/ReactProjectExample.EntityFrameWork/Migrations/
+source/ReactProjectExample.Services/bin/
+source/.vs/ReactProjectExample/DesignTimeBuild/

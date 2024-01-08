@@ -1,20 +1,46 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
+import React, { Component } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default class App extends Component {
+import { Layout } from "./components/Layout";
+import { Home } from "./components/Home";
+import LoginForm from "./components/LoginForm";
+import BaseComponent from "./components/baseComponent";
+import Notifications, { notify } from "react-notify-toast";
+import Register from "./components/Register";
+import Invoices from "./components/Invoices";
+import Products from "./components/Products";
+import ProductsForm from "./components/ProductForm";
+import InvoicesForm from "./components/InvoiceForm";
+
+export default class App extends BaseComponent {
   static displayName = App.name;
 
-  render () {
+  render() {
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
-      </Layout>
+      <div>
+        <Notifications />
+        <ToastContainer />
+        <Layout>
+          <div>
+            <Switch>
+              <Route path="/products/:id" component={ProductsForm} />
+              <Route path="/invoices/:id" component={InvoicesForm} />
+              <Route
+                exact
+                path="/"
+                component={this.isUserLogged() ? Home : LoginForm}
+              />
+
+              <Route path="/register" component={Register} />
+              <Route path="/invoices" component={Invoices} />
+              <Route path="/products" component={Products} />
+              <Route path="/login" component={LoginForm} />
+            </Switch>
+          </div>
+        </Layout>
+      </div>
     );
   }
 }
